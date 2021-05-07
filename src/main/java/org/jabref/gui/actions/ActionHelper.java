@@ -42,6 +42,15 @@ public class ActionHelper {
                                              stateManager.getSelectedEntries());
     }
 
+    public static BooleanExpression lessOrEqualFilesOfEntriesSelected(int numberOfFiles, StateManager stateManager) {
+        return Bindings.createBooleanBinding(() -> stateManager.getSelectedEntries()
+                // get files of selected entries
+                .stream().mapToInt(bibEntry -> bibEntry.getFiles().size())
+                // sum less than parameter
+                .sum() <= numberOfFiles,
+                stateManager.getSelectedEntries());
+    }
+
     public static BooleanExpression isFieldSetForSelectedEntry(Field field, StateManager stateManager) {
         return isAnyFieldSetForSelectedEntry(Collections.singletonList(field), stateManager);
     }
